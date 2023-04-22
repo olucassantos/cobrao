@@ -47,6 +47,8 @@ class Cobra:
     def jogar(self):
         self.construirJogo()
 
+        self.adicionarComida()
+
         while not self.morto:
             
             for evento in pygame.event.get():
@@ -66,7 +68,37 @@ class Cobra:
                     elif evento.key == K_DOWN or evento.key == ord('m'):
                         self.direcao = self.BAIXO
 
-    def movimentar(self):
+            self.calculaDirecaoCabeca()
+
+            if not self.TEM_COMIDA:
+                self.adicionarComida()
+
+            # Adiciona a cabeça da cobra na lista do corpo da serpente
+            self.COBRA.insert(0, list(self.CABECA))
+
+            # Verifica se a cobra comeu a comida
+            if self.CABECA[0] == self.COMIDA_POS[0] and self.CABECA[1] == self.COMIDA_POS[1]:
+                self.TEM_COMIDA = False
+                self.pontos += 500
+            else:
+                self.COBRA.pop()
+
+            self.desenharJogo()
+
+    def adicionarComida(self):
+        while True:
+            x1 = randint(0, 20)
+            y1 = randint(0, 17)
+
+            # Cria uma comida em uma posição aleatória (x, y)
+            self.COMIDA_POS = [int(x1 * 20) + 10, int(y1 * 20) + 120]
+
+            # Verifica se a comida não está na cobra
+            if self.COBRA.count(self.COMIDA_POS) == 0:
+                self.TEM_COMIDA = True
+                break
+
+    def calculaDirecaoCabeca(self):
         match self.direcao:
             case self.DIREITA:
                 self.CABECA[0] += 20 # Adiciona 20 pixels na posição x da cabeça
@@ -89,3 +121,7 @@ class Cobra:
 
                 if(self.CABECA[1] >= self.ALTURA_JANELA - 30):
                     self.morto = True
+
+        # Verifica se a cobra bateu nela mesma
+        if self.COBRA.count(self.CABECA) > 0:
+            self.morto = True
