@@ -20,6 +20,13 @@ class Cobra:
     direcao = None
     relogio = None
 
+    # Cobra
+    COBRA = [[30, 120], [10, 120]]
+    CABECA = [30, 120]
+
+    TEM_COMIDA = False
+    COMIDA_POS = None
+
     def start(self):
         # Inicializar o jogo com a cobra indo para a direita
         # e sem pontos
@@ -48,3 +55,37 @@ class Cobra:
                 if evento.type == QUIT:
                     pygame.quit() # Fecha a janela do jogo
                     sys.exit() # Fecha o terminal
+
+                if evento.type == KEYDOWN:
+                    if evento.key == K_LEFT or evento.key == ord('o'):
+                        self.direcao = self.ESQUERDA
+                    elif evento.key == K_RIGHT or evento.key == ord('p'):
+                        self.direcao = self.DIREITA
+                    elif evento.key == K_UP or evento.key == ord('k'):
+                        self.direcao = self.CIMA
+                    elif evento.key == K_DOWN or evento.key == ord('m'):
+                        self.direcao = self.BAIXO
+
+    def movimentar(self):
+        match self.direcao:
+            case self.DIREITA:
+                self.CABECA[0] += 20 # Adiciona 20 pixels na posição x da cabeça
+
+                # Verifica se a cobra bateu na parede
+                if(self.CABECA[0] >= self.COMPRIMENTO_JANELA - 20): 
+                    self.morto = True
+            case self.ESQUERDA:
+                self.CABECA[0] -= 20
+
+                if(self.CABECA[0] < 10):
+                    self.morto = True
+            case self.CIMA:
+                self.CABECA[1] -= 20
+
+                if(self.CABECA[1] < 110):
+                    self.morto = True
+            case self.BAIXO:
+                self.CABECA[1] += 20
+
+                if(self.CABECA[1] >= self.ALTURA_JANELA - 30):
+                    self.morto = True
