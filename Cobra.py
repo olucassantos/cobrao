@@ -3,6 +3,16 @@ from pygame.locals import *
 from random import randint
 
 class Cobra:
+    # Cores
+    COR_FUNDO = (255, 255, 255)
+    COR_DESTAQUE = (245, 27, 230)
+    COR_TEXTO = (63, 8, 59)
+    COR_COMIDA = (255, 0, 0)
+    COR_CABECA = (175, 11, 193)
+
+    # Bloco
+    BLOCO = [18, 18]
+
     # Direções
     DIREITA = 6
     ESQUERDA = 4
@@ -125,3 +135,22 @@ class Cobra:
         # Verifica se a cobra bateu nela mesma
         if self.COBRA.count(self.CABECA) > 0:
             self.morto = True
+
+    def desenharJogo(self):
+        self.TELA.fill(self.COR_FUNDO)
+
+        # Desenha o placar do pontuação
+        pygame.draw.rect(self.TELA, self.COR_DESTAQUE, Rect([10,10], [420,100]), 1)
+
+        # Escreve o texto do placar
+        font = pygame.font.Font(None, 40)
+        placar = font.render("Pontos: " + str(self.pontos), 1, self.COR_TEXTO)
+
+        posicaoPlacar = placar.get_rect()
+        posicaoPlacar.left = 75
+        posicaoPlacar.top = 45
+
+        self.TELA.blit(placar, posicaoPlacar)
+
+        pygame.display.update()
+        self.relogio.tick(1)
