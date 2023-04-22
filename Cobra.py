@@ -9,6 +9,7 @@ class Cobra:
     COR_TEXTO = (63, 8, 59)
     COR_COMIDA = (255, 0, 0)
     COR_CABECA = (175, 11, 193)
+    COR_CORPO = (255, 0, 255)
 
     # Bloco
     BLOCO = [18, 18]
@@ -150,7 +151,21 @@ class Cobra:
         posicaoPlacar.left = 75
         posicaoPlacar.top = 45
 
+        # Desenha o placar na tela
         self.TELA.blit(placar, posicaoPlacar)
 
+        # Desenha a area do jogo
+        pygame.draw.rect(self.TELA, self.COR_DESTAQUE, Rect([10,120],[420,380]), 1)
+
+        # Desenha a comida
+        pygame.draw.rect(self.TELA, self.COR_COMIDA, Rect(self.COMIDA_POS, self.BLOCO))
+
+        # Desenha a cobra
+        for quadradinho in self.COBRA:
+            if quadradinho == self.COBRA[0]:
+                pygame.draw.rect(self.TELA, self.COR_CABECA, Rect(quadradinho, self.BLOCO))
+            else:
+                pygame.draw.rect(self.TELA, self.COR_CORPO, Rect(quadradinho, self.BLOCO))
+
         pygame.display.update()
-        self.relogio.tick(1)
+        self.relogio.tick(9)
