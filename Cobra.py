@@ -30,6 +30,7 @@ class Cobra:
     pontos = 0
     direcao = None
     relogio = None
+    VELOCIDADE = 1
 
     # Cobra
     COBRA = [[30, 120], [10, 120]]
@@ -91,6 +92,7 @@ class Cobra:
             if self.CABECA[0] == self.COMIDA_POS[0] and self.CABECA[1] == self.COMIDA_POS[1]:
                 self.TEM_COMIDA = False
                 self.pontos += 500
+                self.VELOCIDADE += 1
             else:
                 self.COBRA.pop()
 
@@ -168,4 +170,4 @@ class Cobra:
                 pygame.draw.rect(self.TELA, self.COR_CORPO, Rect(quadradinho, self.BLOCO))
 
         pygame.display.update()
-        self.relogio.tick(9)
+        self.relogio.tick(self.VELOCIDADE)
