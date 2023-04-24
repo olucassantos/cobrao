@@ -31,6 +31,7 @@ class Cobra:
     pontos = 0
     direcao = None
     relogio = None
+    VELOCIDADE = 1
 
     # Cobra
     COBRA = [[30, 120], [10, 120]]
