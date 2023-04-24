@@ -24,6 +24,7 @@ class Cobra:
     COMPRIMENTO_JANELA = 440
     ALTURA_JANELA = 510
     TELA = None
+    VELOCIDADE = 1
 
     # Controlar o jogo
     morto = False
@@ -70,13 +71,13 @@ class Cobra:
                     sys.exit() # Fecha o terminal
 
                 if evento.type == KEYDOWN:
-                    if evento.key == K_LEFT or evento.key == ord('o'):
+                    if (evento.key == K_LEFT or evento.key == ord('o')) and self.direcao != self.DIREITA:
                         self.direcao = self.ESQUERDA
-                    elif evento.key == K_RIGHT or evento.key == ord('p'):
+                    elif (evento.key == K_RIGHT or evento.key == ord('p')) and self.direcao != self.ESQUERDA:
                         self.direcao = self.DIREITA
-                    elif evento.key == K_UP or evento.key == ord('k'):
+                    elif (evento.key == K_UP or evento.key == ord('k')) and self.direcao != self.BAIXO:
                         self.direcao = self.CIMA
-                    elif evento.key == K_DOWN or evento.key == ord('m'):
+                    elif (evento.key == K_DOWN or evento.key == ord('m')) and self.direcao != self.CIMA:
                         self.direcao = self.BAIXO
 
             self.calculaDirecaoCabeca()
@@ -91,6 +92,7 @@ class Cobra:
             if self.CABECA[0] == self.COMIDA_POS[0] and self.CABECA[1] == self.COMIDA_POS[1]:
                 self.TEM_COMIDA = False
                 self.pontos += 500
+                self.VELOCIDADE += 1
             else:
                 self.COBRA.pop()
 
@@ -168,4 +170,4 @@ class Cobra:
                 pygame.draw.rect(self.TELA, self.COR_CORPO, Rect(quadradinho, self.BLOCO))
 
         pygame.display.update()
-        self.relogio.tick(9)
+        self.relogio.tick(self.VELOCIDADE)
